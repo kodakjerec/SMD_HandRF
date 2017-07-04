@@ -1,0 +1,46 @@
+﻿<ion-view view-title="歷史紀錄">
+    <style type="text/css">
+        #mysubbutton {
+            margin-top: 0px;
+            font-size: x-large;
+        }
+
+        .OrderDetail_IonItem.item-complex .item-content {
+            background-color: white;
+        }
+
+        .item-stacked-label {
+            display: unset;
+        }
+    </style>
+    <ion-nav-buttons side="left">
+        <button class="button icon icon-left ion-arrow-left-c" ng-click="Back()"></button>
+    </ion-nav-buttons>
+    <div class="bar bar-subheader bar-dark">
+        <div class="button-bar">
+            <button class="button button-positive icon ion-ios-cart-outline" ng-click="Back()">訂單</button>
+            <button class="button button-calm icon ion-ios-clock">歷史紀錄</button>
+        </div>
+    </div>
+    <ion-content class="has-header has-subheader has-footer">
+        <ion-list class="item has-badge">
+            <ion-item ng-repeat="item in data.Orders"
+                      class="OrderDetail_IonItem">
+                <span>{{item.CALLING_NUM}}</span>
+                <span class="h2">{{item.ALIAS}}</span>
+                <div class="badge">
+                    <span class="h3">{{item.QTY}}</span>
+                    <span class="input-label">{{item.UNIT_G}}</span>
+                    <button class="button icon ion-ios-minus-outline" ng-click="DelQty($index)" ng-disabled="item.QTY<=0">減量</button>
+                    <button class="button icon ion-ios-plus-outline" ng-click="AddQty($index)">加量</button>
+                </div>
+                <ion-option-button class="button-positive">
+                    Share
+                </ion-option-button>
+                <ion-option-button class="button-info">
+                    Edit
+                </ion-option-button>
+            </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-view>

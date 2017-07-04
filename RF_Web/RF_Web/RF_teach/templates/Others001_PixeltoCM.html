@@ -1,0 +1,19 @@
+﻿<ion-view>
+    <ion-header-bar>
+        <h1 class="title">Pixel換算CM</h1>
+    </ion-header-bar>
+    <ion-content class="has-header">
+        <label class="item item-input item-input-wrapper" focus-me>
+            <span class="input-label">Pxiel</span>
+            <input type="tel" ng-model="data.Pixel">
+        </label>
+        <label class="item item-input item-input-wrapper">
+            <span class="input-label">DPI</span>
+            <input type="tel" ng-model="data.DPI">
+        </label>
+        <button class="button button-block button-positive" ng-click="onClick()">換算</button>
+        <label class="item item-input item-input-wrapper">
+            <span class="input-label">{{data.CM}}</span>CM
+        </label>
+    </ion-content>
+</ion-view>

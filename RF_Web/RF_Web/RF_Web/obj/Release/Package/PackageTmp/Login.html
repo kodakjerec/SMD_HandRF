@@ -1,0 +1,51 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta HTTP-EQUIV="EXPIRES" CONTENT="0">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>登入</title>
+    <link rel="stylesheet" type="text/css" href="scripts/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="scripts/themes/mobile.css">
+    <link rel="stylesheet" type="text/css" href="scripts/themes/icon.css">  
+    <script type="text/javascript" src="scripts/jquery.min.js"></script>
+    <script type="text/javascript" src="scripts/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="scripts/jquery.easyui.mobile.js"></script>
+    <script type="text/javascript" src="scripts/Myjs/jquery.session.js"></script>
+    <script type="text/javascript" src="scripts/Myjs/js.cookie.js"></script>
+
+    <script type="text/javascript">
+        //永遠重新讀取
+        $.ajax({
+            url: "scripts/Myjs/Login.js",
+            dataType: "script",
+            success: function (event) { }
+        });
+    </script>
+    <link rel="stylesheet" type="text/css" href="scripts/Mycss/MyeasyUI.css" >
+</head>
+<body>
+    <div class="easyui-navpanel" id="Page_Login">
+        <header>
+            <div class="m-toolbar">
+                <span class="m-title">善美的RF驗收(測試版)</span>
+            </div>
+        </header>
+        <div style="margin: 20px auto; width: 150px;overflow: hidden">
+            <img src="Pics/SunMakeMark.png" style="margin:0;width:100%;height:100%;">
+        </div>
+        <div style="padding: 0 20px">
+            <div style="margin-bottom: 10px; height: 20%">
+                <input id="txb_Name" type="number" class="easyui-textbox" data-options="required:true,validType:'minLength[1]',prompt:'輸入使用者帳號',iconCls:'icon-man',label:'帳號',width:'100%',value:'',missingMessage:'請輸入帳號'">
+            </div>
+            <div style="height: 20%">
+                <input class="easyui-passwordbox" data-options="prompt:'請輸入密碼',label:'密碼',width:'100%',value:115543">
+            </div>
+            <div style="text-align: center; margin-top: 10px">
+                <a href="#" id="btn_Login" class="easyui-linkbutton" data-options="width:'100%',text:'登入',height:'60'">
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

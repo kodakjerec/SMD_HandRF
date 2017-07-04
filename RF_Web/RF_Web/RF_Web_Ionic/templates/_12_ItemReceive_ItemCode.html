@@ -1,0 +1,75 @@
+<link href="css/style.css" type="text/css" rel="stylesheet" />
+<ion-view class="back">
+    <!--header-->
+    <ion-header-bar align-title="center" class="bar bar-header bar-dark">
+        <a class="button icon ion-chevron-left" ng-click="Back()">返回</a>
+        <h1 class="title">呼出碼查詢</h1>
+        <a class="button icon ion-chevron-right icon-right"  ng-click="JOBID2()" ng-disabled="data.IsDisabled">下一步</a> <!----> 
+   </ion-header-bar>
+    <!--subheader-->
+    <div class="bar bar-subheader con_back">
+        <label class="item-input con_back">
+            <span class="input-label con_back">條碼</span>
+            <input id="txb_ItemCode" type="text" ng-model="data.ItemCode" ng-enter="search()" style="width:120px" focus-me>
+        </label>
+        <button class="button button-assertive icon ion-close" ng-click="reset()"></button>
+        <button class="button button-calm icon ion-search" ng-click="search()"></button>
+    </div>
+    <ion-content class="has-subheader has-footer" on-swipe-right="Back()" on-swipe-left="JOBID2()">
+        <ul class="list list-inset" ng-show="!data.IsDisabled"><!---->
+            <li class="item item-input-inset con_back">
+                <span class="input-label con_back">太陽日</span>
+                <span class="input-label con_back">{{Sun}}</span>
+            </li>
+
+            <li class="item item-input-inset con_back">
+                <span class="input-label con_back">{{result.ROW1}}</span>
+            </li>
+            <li class="item item-input-inset con_back">
+                <span class="input-label con_back">{{result.ROW2}}</span>
+            </li>
+            <li class="item item-input-wrapper con_back" ng-show="result.QL_TYPE">
+                <span class="input-label con_back">廠商批號</span>
+                <input id="txb_LOT" type="tel" ng-model="data.LOT">
+            </li>
+            <li class="item item-input-wrapper con_back" ng-show="result.QE_TYPE">
+                <span id="lbl_SunDay" class="input-label con_back">{{result.QE_TYPE_NAME}}</span>
+                <input id="txb_SunDay" type="tel" ng-model="data.SunDay" ng-value="result.QE_TYPE_TEXT">
+            </li>
+            <li class="item item-input-wrapper con_back" ng-show="result.QT_TYPE">
+                <span class="input-label con_back">{{result.QT_TYPE_NAME}}</span>
+                <button class="button button-small button-3d-primary button-positive" ng-click="Tempr_p()" >+</button> &nbsp;
+                <button class="button button-small button-3d-primary button-positive" ng-click="Tempr_n()" >-</button>  &nbsp;
+                <input id="txb_Temperature" type="tel" ng-model="data.Temp" 
+                       style="background-color:{{Temp_color.backColor}} ; color:{{Temp_color.fontColor}}" >
+            </li>
+            <li class="item item-input-inset con_back">
+                <span class="input-label con_back " style="color:{{data.viewColor}}">{{result.ROW3}}</span>
+                <progress max="{{QTY_ShowTotal}}" value="{{result.QTY}}"  style="width:100px;margin-left:0px;"> {{($scope.QTY_ShowTotal - $scope.QTY_left) / $scope.QTY_ShowTotal*100}}</progress>
+            </li>
+            <li class="item item-input-inset con_back">
+                <span class="input-label con_back">{{result.ROW4}}</span>
+            </li>
+            <li class="item item-input-inset con_back" ng-show="resulttest" ng-repeat="name in tester" >
+                <span class="input-label con_back">{{name}}</span>
+                <input id={{name}} type="text" ng-model="getdata[name]" />
+            </li>
+        </ul>
+          
+    </ion-content>
+    <ion-footer-bar class="bar-subfooter bar-dark">
+        <li class="item item-input-inset con_back">
+            <span class="input-label con_back">{{result.ROW5}}</span>
+            <span class="input-label con_back">{{result.ROW6}}</span>
+            <span class="input-label con_back">{{result.ROW7}}</span>
+        </li>
+    </ion-footer-bar>
+    <ion-footer-bar class="bar-footer con_back" align-title="right">   
+        <button class="button button-positive" ng-click="JOBID45()">
+            <i class="ion-checkmark"></i>
+            <span>單品完成</span>
+        </button>   
+        <h1 class="title" style="font-size:small;color:#FFFF37;">區域：{{BLOCK_uiselect }}</h1>
+           <!--<a class="button button-large button-balanced" ng-click="clickget()">test</a>--> 
+    </ion-footer-bar>
+</ion-view>

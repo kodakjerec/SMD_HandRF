@@ -1,0 +1,8 @@
+[
+  {
+    "ConnectTimeOut": "0",
+    "Log": "OFF",
+	"Port": "1813",
+	"ScheduleON" : "ON"
+  }
+]

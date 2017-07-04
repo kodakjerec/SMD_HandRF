@@ -1,0 +1,153 @@
+/* Empty. Add your own CSS if you like */
+.KeyboardNumber .popup {
+    width: 90%;
+    height: 41%;
+}
+
+.KeyboardNumber .popup-head {
+    display: none;
+}
+.title {
+font-family:Microsoft JhengHei;
+}
+.detail {
+    font-family:Microsoft JhengHei;
+    font-size:medium;
+}
+
+/*
+.popup-head {
+  font-family:Microsoft JhengHei;
+  background-color : #ACD6FF;
+}
+
+.popup-body {
+  font-family:Microsoft JhengHei;
+  background-color : white;
+  text-align:center;
+}
+*/
+
+
+/***input***/
+input[type=password] {
+    font-family:Microsoft JhengHei;
+    font-size:larger;
+    background-color:black;
+    color:white;  
+    border: 3px solid #6C6C6C;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+    outline: none;
+}
+input[type=tel] {
+    font-family:Microsoft JhengHei;
+    font-size:larger;
+    background-color:black;
+    color:white;
+    border: 3px solid #6C6C6C;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+    outline: none;
+    width:50%;
+}
+input[type=text] {
+    font-family:Microsoft JhengHei;
+    background-color:black;
+    color:white;
+    border: 3px solid #6C6C6C;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+    outline: none;
+}
+
+input[type=tel]:focus {
+    border: 3px solid #FF8040;
+}
+input[type=password]:focus {
+    border: 3px solid #FF8040;
+}
+input[type=text]:focus {
+    border: 3px solid #FF8040;
+}
+
+
+/***backgroud***/
+.back {
+font-family:Microsoft JhengHei;
+background-color:#212121;
+}
+.con_back {
+font-family:Microsoft JhengHei;
+background-color:#2D2D2F;
+color:#F0F0F0;
+font-size:medium;
+}
+
+/***block¡Bmenu***/
+.btn_list{
+font-family:Microsoft JhengHei;
+background-color:#212121;
+font-size: larger;
+color: #ff7575;
+}
+
+/*** table ***/
+.table4_1 table {
+	width:100%;
+	margin:15px 0;
+	border:0;
+}
+.table4_1 th {
+	background-color:#FF7A85;
+	color:#FFFFFF
+}
+.table4_1,.table4_1 th,.table4_1 td {
+	font-size:0.95em;
+	text-align:center;
+	padding:4px;
+	border-collapse:collapse;
+}
+.table4_1 th,.table4_1 td {
+	border: 1px solid #feb3b9;
+	border-width:1px 0 1px 0
+}
+.table4_1 tr {
+	border: 1px solid #feb3b9;
+}
+.table4_1 tr:nth-child(odd){
+	background-color:#fed2d6;
+}
+.table4_1 tr:nth-child(even){
+	background-color:#fdfdfd;
+}
+/**********/
+
+.table4_4 table {
+	width:100%;
+	margin:15px 0;
+	border:0;
+}
+.table4_4 th {
+	background-color:#91D0D2;
+	color:#000000
+}
+.table4_4,.table4_4 th,.table4_4 td {
+	font-size:0.95em;
+	text-align:center;
+	padding:4px;
+	border-collapse:collapse;
+}
+.table4_4 th,.table4_4 td {
+	border: 2px solid #c0e4e5;
+	border-width:2px 0 2px 0
+}
+.table4_4 tr {
+	border: 1px solid #c0e4e5;
+}
+.table4_4 tr:nth-child(odd){
+	background-color:#daeff0;
+}
+.table4_4 tr:nth-child(even){
+	background-color:#fdfdfd;
+}

@@ -1,0 +1,36 @@
+/* Empty. Add your own CSS if you like */
+.KeyboardNumber .popup {
+    width: 92%;
+    height: 41%;
+}
+
+.KeyboardNumber .popup-head {
+    display: none;
+}
+
+input:focus {
+    background-color: yellow;
+}
+/*
+.background, .background .pane, .background .item, .background .item-complex .item-content{
+    background-color: lightgray;
+}
+*/
+
+/*002ChooseGroup*/
+.scroll {
+    height: 100% !important;
+}
+.groupIcon {
+    width:80%;
+    height:80%;
+    font-size:xx-large
+}
+.groupRow {
+    height:33%
+}
+
+/*003OrderItem*/
+.wide-header {
+  min-width : 1800px;
+}

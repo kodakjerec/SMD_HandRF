@@ -1,0 +1,31 @@
+﻿<ion-view>
+    <ion-header-bar align-title="center" class="bar bar-header">
+        <h1 class="title">EEPServer測試</h1>
+    </ion-header-bar>
+    <ion-content>
+        <div class="list list-inset">
+            <label class="item item-input item-input-wrapper" focus-me>
+                <span class="input-label">使用者名稱</span>
+                <input type="text" ng-model="data.userData.userID">
+            </label>
+            <label class="item item-input item-input-wrapper">
+                <span class="input-label">密碼</span>
+                <input type="text" ng-model="data.userData.password">
+            </label>
+            <label class="item item-input item-input-wrapper">
+                <span class="input-label">資料庫</span>
+                <input type="text" ng-model="data.userData.database" ng-click="ShowPopOver_database()">
+            </label>
+            <label class="item item-input item-input-wrapper">
+                <span class="input-label">解決方案</span>
+                <input type="text" ng-model="data.userData.solution" ng-click="ShowPopOver_solution()">
+            </label>
+            <label class="item item-input item-input-wrapper">
+                <span class="input-label">deviceID</span>
+                <input type="text" ng-model="data.userData.deviceID">
+            </label>
+        </div>
+        <button class="button button-block button-positive" ng-click="login()">登入</button>
+        {{ServerIP}}
+    </ion-content>
+</ion-view>

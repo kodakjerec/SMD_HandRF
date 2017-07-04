@@ -1,0 +1,19 @@
+﻿<link href="css/style.css" type="text/css" rel="stylesheet" />
+<ion-view class="back">
+    <!--header-->
+    <ion-header-bar align-title="center" class="bar bar-header bar-dark ">
+        <h1 class="title">區域選擇</h1>
+    </ion-header-bar>
+    <!--content-->
+    <ion-content class="has-header back">
+        <div class="card back">
+                <button class="btn_list button button-outline button-block " 
+                        ng-repeat="item in BLOCK_fromdb" 
+                        ng-value="item.BLOCK_NAME" 
+                        ng-click="click(item.BLOCK_NAME)"
+                        style="color:#ff7575;border-color:#ADADAD">
+                    {{ item.BLOCK_NAME }}
+                </button>
+        </div>
+    </ion-content>
+</ion-view>

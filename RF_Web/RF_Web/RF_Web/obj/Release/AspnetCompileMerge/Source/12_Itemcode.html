@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Basic DataGrid - jQuery EasyUI Demo</title>
+    <link rel="stylesheet" type="text/css" href="scripts/themes/metro/easyui.css" />
+    <link rel="stylesheet" type="text/css" href="scripts/themes/mobile.css" />
+    <link rel="stylesheet" type="text/css" href="scripts/themes/color.css" />
+    <link rel="stylesheet" type="text/css" href="scripts/themes/icon.css" />
+    <script type="text/javascript" src="scripts/jquery.min.js"></script>
+    <script type="text/javascript" src="scripts/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="scripts/jquery.easyui.mobile.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            $("#txb_ItemCode").textbox({
+                icons: [{
+                    iconCls: 'icon-search',
+                    handler: function () { }
+                }],
+                onClickIcon: function () {
+                    var itemCode= $('#txb_ItemCode').val();
+                    $.ajax({
+                        url: 'handler/12_ItemCode.ashx',
+                        data: { mode: "Query", PaperNo: "ID160530000003", ItemCode: itemCode },
+                        type: 'GET',
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: 'json',
+                        success: function (result) {
+                            //查詢正確:筆數>0
+                            if (result.total ==1) {
+                                //判斷式
+                                $('#span_ROW1').text(result.rows[0].ROW1);
+                            }
+                        },
+                        error: function () {
+                            alert('error');
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+
+</head>
+<body>
+    <div class="easyui-navpanel">
+        <div>
+            <input id="txb_ItemCode" class="easyui-textbox" data-options="prompt:'請刷入條碼', label:'商品條碼', width:'100%', value:'4719853580251'">
+        </div>
+        <div id="div_ItemContent" class="easyui-panel">
+            <span id="span_ROW1">110680 養生珍珠番茄</span><br />
+            <span>約450g/售價89</span><br />
+            <input id="txb_BatchNo" class="easyui-textbox" data-options="prompt:'請刷入批號',label:'批號',width:'100%',value:''" /><br />
+            <input id="txb_SunDay" class="easyui-textbox" data-options="prompt:'請刷入太陽日',label:'太陽日',width:'100%',value:''" /><br />
+            <input id="txb_TemperatureB" class="easyui-textbox" data-options="prompt:'請刷入溫度',label:'溫度',width:'50%',value:''" />
+            <input id="txb_TemperatureE" class="easyui-textbox" data-options="prompt:'請刷入負溫',width:'40%',value:''" /><br />
+            <span>本單應收 23 待收 23</span><br />
+            <span>應抽驗數1(5%)</span><br />
+            <span>已收良品 0</span><br />
+            <span>已收不良 0</span><br />
+            <span>已收搭贈 0</span><br />
+        </div>
+        <footer>
+            <div class="m-toolbar">
+                <a href="#" id="btn_FinishOne" class="easyui-linkbutton" data-options="group:'g1'">
+                    <span style="font-size: 16px">
+                        單品完成
+                    </span>
+                </a>
+                <a href="#" id="btn_NextStep" class="easyui-linkbutton" data-options="group:'g1',selected:true">
+                    <span style="font-size: 16px">
+                        下一頁
+                    </span>
+                </a>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

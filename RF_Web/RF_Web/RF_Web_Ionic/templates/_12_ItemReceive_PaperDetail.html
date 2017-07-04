@@ -1,0 +1,40 @@
+<link href="css/style.css" type="text/css" rel="stylesheet" />
+<ion-modal-view view-title="Lists" ng-controller="CommonListTableCtrl" class="con_back">
+    <ion-header-bar align-title="center" class="bar bar-header bar-dark con_back" >
+        <div class="buttons">
+            <button class="button button-assertive" ng-click="Confirm('NO')">返回</button>
+        </div>
+        <h1 class="title">驗收清單</h1>
+    </ion-header-bar>
+    <ion-content on-swipe-right="Confirm('NO')" class="title">
+       <!-- <div class="responsive-sm">
+            <div class="list card">
+                <div ng-repeat="ListItem in Lists" class="title">
+                    <h2  style="color:{{ListItem.UIColor}}">{{ListItem.ITEM_ID}} {{ListItem.NAME}}</h2>
+                    <p>訂購量：{{ListItem.PO_QTY}} 驗收量：{{ListItem.QTY}}</p>
+                </div>
+            </div>
+        </div>
+           -->
+
+
+        <div class="card">
+            <table style="width:100%" class="table4_4">
+                <tr>
+                    <th style="width:15%">狀態</th>
+                    <th style="width:65%">品項</th>
+                    <th style="width:10%">訂量</th>
+                    <th style="width:10%">驗量</th>
+                </tr>
+            </table>
+            <table style="width:100%" ng-repeat="ListItem in Lists" class="table4_4">
+                <tr style="color:{{ListItem.UIColor}}">
+                    <td style="width:15%">{{ListItem.UISt}}</td>
+                    <td style="width:65%; font-size:large;" > {{ListItem.ITEM_ID}} {{ListItem.NAME}} </td>
+                    <td style="width:10%">{{ListItem.PO_QTY}} </td>
+                    <td style="width:10%"> {{ListItem.QTY}}  </td>
+                </tr>
+            </table>
+        </div>
+    </ion-content>
+</ion-modal-view>

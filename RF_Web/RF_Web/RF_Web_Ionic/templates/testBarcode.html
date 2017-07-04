@@ -1,0 +1,54 @@
+﻿<link href="css/style.css" type="text/css" rel="stylesheet" />
+<ion-view class="back">
+        <ion-header-bar align-title="center" class="bar bar-header bar-dark ">
+            <button ng-click="Back()" class="button icon-left ion-chevron-left button-clear button-light">返回</button>
+            <h1 class="title">籃明細</h1>
+        </ion-header-bar>
+
+        <div class="bar bar-subheader con_back">
+            <label class=" item-input con_back">
+                <span class="input-label con_back">條碼</span>
+                <input id="txb_testBarcode" type="text" ng-model="data.ItemCode" class=" ion ion-search" ng-enter="search()" style="width:120px" focus-me>
+            </label>
+            <button class="button button-assertive icon ion-close" ng-click="reset()"></button>
+            <button class="button button-calm icon ion-search" ng-click="search()"></button>
+        </div>
+
+    <ion-content class="has-header  has-subheader">
+        <label class="item item-input con_back ">
+            <span class="input-label con_back">BasketId</span>      
+            {{DCSresult[0].BasketId}}
+        </label>
+        <label class="item item-input con_back ">
+            <span class="input-label con_back">OrderNo </span>
+            {{DCSresult[0].OrderNo}}
+        </label>
+        <label class="item item-input con_back ">
+            <span class="input-label con_back">StoreId </span>
+            {{DCSresult[0].StoreId}}
+        </label>
+        <label class="item item-input con_back ">
+            <span class="input-label con_back">StoreName</span>
+            {{DCSresult[0].StoreName}}
+        </label>
+        
+        <table class="table4_1" style="width:100%">
+            <tr>
+                <th style="width:25%">條碼</th>
+                <th style="width:25%">呼出碼</th>
+                <th style="width:40%">品名</th>
+                <th style="width:10%">數量</th>
+            </tr>
+        </table>
+        <div ng-repeat="s in DCSresult">
+            <table  class="table4_1" style="width:100%">
+                <tr>
+                    <td style="width:25%"> {{s.ItemBracode}}</td>
+                    <td style="width:25%"> {{s.ItemCode}}</td>
+                    <td style="width:40%"> {{s.ItemName}}</td>
+                    <td style="width:10%"> {{s.Amount}}</td>
+                </tr>
+            </table>
+        </div>
+</ion-content>
+</ion-view>

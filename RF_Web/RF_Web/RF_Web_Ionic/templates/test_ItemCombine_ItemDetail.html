@@ -1,0 +1,16 @@
+﻿<link href="css/style.css" type="text/css" rel="stylesheet" />
+<ion-view class="back">
+    <ion-header-bar align-title="center" class="bar bar-header bar-dark ">
+        <button ng-click="Back()" class="button icon-left ion-chevron-left button-clear button-light">返回</button>
+        <h1 class="title">併藍</h1>
+    </ion-header-bar>
+
+    <div class="bar bar-subheader con_back">
+        <label class=" item-input con_back">
+            <span class="input-label con_back">條碼</span>
+            <input id="txb_testBarcode" type="text" ng-model="data.ItemCode" class=" ion ion-search" ng-enter="search()" style="width:120px" focus-me>
+        </label>
+        <button class="button button-assertive icon ion-close" ng-click="reset()"></button>
+    </div>
+
+</ion-view>

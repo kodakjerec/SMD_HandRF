@@ -1,0 +1,29 @@
+﻿.panel-body, .panel-title, .easyui-panel, .easyui-navpanel, .easyui-linkbutton .l-btn-text, .textbox .textbox-text {
+    font-size: large;
+}
+
+/*datalist*/
+.datagrid-cell, .datagrid-cell-group, .datagrid-header-rownumber, .datagrid-cell-rownumber {
+    font-size:large
+}
+
+/*頁首*/
+.panel-header {
+    font-size:large;
+}
+
+/*頁尾*/
+.panel-footer .m-toolbar {
+    background-color: black;
+    height: 50px;
+}
+    .panel-footer .m-toolbar .easyui-linkbutton {
+        width: 23%;
+        height: 80%;
+        margin-top: 1%;
+    }
+        .panel-footer .m-toolbar .easyui-linkbutton .l-btn-left .l-btn-text {
+            height: 100%;
+            font-size: large;
+            margin-top: 5px;
+        }

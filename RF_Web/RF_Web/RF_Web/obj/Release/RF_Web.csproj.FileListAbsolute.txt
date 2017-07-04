@@ -1,0 +1,9 @@
+D:\Projects_C\生鮮\RF_Web\RF_Web\RF_Web\bin\RF_Web.dll.config
+D:\Projects_C\生鮮\RF_Web\RF_Web\RF_Web\bin\RF_Web.dll
+D:\Projects_C\生鮮\RF_Web\RF_Web\RF_Web\bin\RF_Web.pdb
+D:\Projects_C\生鮮\RF_Web\RF_Web\RF_Web\bin\Newtonsoft.Json.dll
+D:\Projects_C\生鮮\RF_Web\RF_Web\RF_Web\bin\Newtonsoft.Json.pdb
+D:\Projects_C\生鮮\RF_Web\RF_Web\RF_Web\bin\Newtonsoft.Json.xml
+D:\Projects_C\生鮮\RF_Web\RF_Web\RF_Web\obj\Release\RF_Web.csprojResolveAssemblyReference.cache
+D:\Projects_C\生鮮\RF_Web\RF_Web\RF_Web\obj\Release\RF_Web.dll
+D:\Projects_C\生鮮\RF_Web\RF_Web\RF_Web\obj\Release\RF_Web.pdb

@@ -1,0 +1,65 @@
+﻿<ion-view view-title="訂單">
+    <style type="text/css">
+        /*欲訂量的input*/
+        .QTYlabel {
+            width: 30%;
+            margin-top: 3%;
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+    <ion-nav-buttons side="left">
+        <button class="button icon icon-left ion-arrow-left-c" ng-click="Back()"></button>
+    </ion-nav-buttons>
+    <div class="bar bar-subheader bar-dark">
+        <div class="button-bar">
+            <button class="button button-calm icon ion-ios-cart">訂單</button>
+            <button class="button button-positive icon ion-ios-clock-outline" ng-click="changePage()">歷史紀錄</button>
+        </div>
+    </div>
+
+    <ion-content class="has-header has-subheader" on-swipe-right="Back()">
+        <div class="col-header">
+            <div class="flex-container wrap">
+                <div class="column" ng-style="columnNOR">呼出碼</div>
+                <div class="column" ng-style="columnNOR">品名</div>
+                <div class="column" ng-style="columnNOR">規格</div>
+                <div class="column" ng-style="columnNOR">單位</div>
+                <div class="column" ng-style="columnNOR">售價</div>
+                <div class="column" ng-style="columnNOR">已訂量</div>
+                <div class="column" ng-style="columnQTY">欲訂量</div>
+            </div>
+        </div>
+
+        <ion-item class="item-stable"
+                  ng-class="{active: isGroupShown($index)}"
+                  ng-repeat="Groups in dateGroups">
+            <div ng-click="toggleGroup($index)">
+                <a class="icon" ng-class="isGroupShown($index) ? 'ion-minus' : 'ion-plus'"></a>
+                到貨日：{{Groups.RECEIVE_DATE}}
+            </div>
+            <div class="item-accordion" ng-show="isGroupShown($index)">
+                <div class="item low-pad-item"
+                     ng-repeat="item in Groups.Items">
+                    <div class="flex-container wrap">
+                        <div class="column" ng-style="columnNOR"><span>{{item.CALLING_NUM}}</span></div>
+                        <div class="column" ng-style="columnNOR"><span>{{item.ALIAS}}</span></div>
+                        <div class="column" ng-style="columnNOR"><span>{{item.SPEC}}</span></div>
+                        <div class="column" ng-style="columnNOR"><span>{{item.UNIT}}</span></div>
+                        <div class="column" ng-style="columnNOR"><span style="color:red">{{item.PRICE}}</span></div>
+                        <div class="column" ng-style="columnNOR"><span class="h3">{{item.QTY}}</span></div>
+                        <div class="column" ng-style="columnQTY">
+                            <a class="button icon-left ion-minus-round" ng-click="DelQty(item)"></a>
+                            <input class="QTYlabel" type="number" ng-model="item.OrderQty" style="display:unset;font-size:large" ng-click="onTextClick($event)">
+                            <a class="button icon-left ion-plus-round" ng-click="AddQty(item)"></a>
+                            <a class="button"
+                               ng-class="{'button-positive': item.OrderQty!=0,'button-clear':item.OrderQty==0}"
+                               ng-show="item.OrderQty!='0'"
+                               ng-click="SendOrder(item)">送出</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ion-item>
+    </ion-content>
+</ion-view>

@@ -1,0 +1,17 @@
+﻿<ion-view view-title="teach002 ng-repeat">
+    <ion-content class="has-header">
+        html-List
+        <li>
+            <ul ng-repeat="x in names">
+                {{ x.name + ', ' + x.country }}
+            </ul>
+        </li>
+        <br />
+        Ionic List
+        <ion-list>
+            <ion-item ng-repeat="x in names">
+                {{ x.name + ', ' + x.country }}
+            </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-view>

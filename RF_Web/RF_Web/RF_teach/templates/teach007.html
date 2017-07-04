@@ -1,0 +1,69 @@
+﻿<ion-view view-title="teach007 report和摺疊清單">
+    <ion-content>
+        <div class="card">
+            <div class="h1 text-center">Line</div>
+            <div class="" ng-controller="teach007_LineCtrl">
+                <canvas id="line" class="chart chart-line" chart-data="data"
+                        chart-labels="labels" chart-series="series" chart-options="options"
+                        chart-dataset-override="datasetOverride" chart-click="onClick"></canvas>
+            </div>
+
+            <div class="h1 text-center">Bar</div>
+            <div class="item item-text-wrap" ng-controller="teach007_BarCtrl">
+                <canvas id="bar" class="chart chart-bar"
+                        chart-data="data" chart-labels="labels" chart-series="series"></canvas>
+            </div>
+
+            <div class="h1 text-center">Dougnut</div>
+            <div class="item item-text-wrap" ng-controller="teach007_DoughnutCtrl">
+                <canvas id="dougnut" class="chart chart-doughnut"
+                        chart-data="data" chart-labels="labels"></canvas>
+            </div>
+
+            <div class="h1 text-center">Radar</div>
+            <div class="item item-text-wrap" ng-controller="teach007_RadarCtrl">
+                <canvas id="radar" class="chart chart-radar"
+                        chart-data="data" chart-options="options" chart-labels="labels"></canvas>
+            </div>
+
+            <div class="h1 text-center">Pie</div>
+            <div class="item item-text-wrap" ng-controller="teach007_PieCtrl">
+                <canvas id="pie" class="chart chart-pie"
+                        chart-data="data" chart-labels="labels" chart-options="options"></canvas>
+            </div>
+
+            <div class="h1 text-center">PolarArea</div>
+            <div class="item item-text-wrap" ng-controller="teach007_PolarAreaCtrl">
+                <canvas id="polar-area" class="chart chart-polar-area"
+                        chart-data="data" chart-labels="labels" chart-options="options"></canvas>
+            </div>
+
+            <div class="h1 text-center">HorizontalBar</div>
+            <div class="item item-text-wrap" ng-controller="teach007_HorizontalBarCtrl">
+                <canvas id="base" class="chart-horizontal-bar"
+                        chart-data="data" chart-labels="labels"></canvas>
+            </div>
+
+            <div class="h1 text-center">Bubble</div>
+            <div class="item item-text-wrap" ng-controller="teach007_BubbleCtrl">
+                <!--see examples/bubble.html for random bubbles source code-->
+                <canvas id="base" class="chart-bubble" chart-data="data"
+                        chart-series="series"></canvas>
+            </div>
+
+            <div class="h1 text-center">Dynamic</div>
+            <div class="item item-text-wrap" ng-controller="teach007_DynamicCtrl">
+                <canvas id="base" class="chart-base" chart-type="type"
+                        chart-data="data" chart-labels="labels"></canvas>
+                <button type="button" class="btn btn-primary pull-right" ng-click="toggle()">Toggle</button>
+            </div>
+
+            <div class="h1 text-center">Mixed</div>
+            <div class="item item-text-wrap" ng-controller="teach007_MixedCtrl">
+                <canvas id="base" class="chart-bar"
+                        chart-data="data" chart-labels="labels" chart-colors="colors"
+                        chart-dataset-override="datasetOverride"></canvas>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

@@ -1,0 +1,14 @@
+[
+  {
+    "PK": "DC2",
+    "ConnectionString": "Data Source=172.20.5.226;Initial Catalog=DCS ;User Id=dcs_ap;Password=dCs_@P"
+  },
+  {
+    "PK": "DCStest",
+    "ConnectionString": "Data Source=172.31.31.250;Initial Catalog=DCS ;User Id=ncf;Password=ksi"
+  },
+  {
+    "PK": "DDItest",
+    "ConnectionString": "Data Source=172.31.31.250;Initial Catalog=DDI ;User Id=ncf;Password=ksi"
+  }
+]

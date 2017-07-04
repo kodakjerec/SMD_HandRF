@@ -1,0 +1,29 @@
+
+<link href="css/style.css" type="text/css" rel="stylesheet" />
+<ion-view class="back">
+    <ion-header-bar align-title="center" class="bar bar-header bar-dark ">
+        <h1 class="title">善美的RF驗收(測試版v2.0)(ionic)</h1>
+    </ion-header-bar>
+    <form name="form1" novalidate>
+        <ion-content class="has-header">
+            <br />
+            <img src="img/ionic.png" style="display: block; margin:auto;">
+            <div class="list list-inset card con_back">
+                <br />
+                <label class="item-input item-input-wrapper con_back" focus-me>
+                    <span class="input-label con_back">帳號</span>
+                    <input type="tel" name="username" ng-model="loginData.username" ng-value="123"  required/>
+                </label>
+                <br />
+                <label class="item-input item-input-wrapper con_back">
+                    <span class="input-label con_back">密碼</span>
+                    <input type="password" ng-model="loginData.password" bg-value="123"  required/>
+                </label>
+                <br />
+            </div>
+            <div class="card back">
+                <button class="button button-block button-positive back" ng-disabled="form1.$invalid" ng-click="doLogin()">登入</button>
+            </div>
+        </ion-content>
+    </form>
+</ion-view>

@@ -1,0 +1,39 @@
+﻿<ion-view view-title="teach008 Table和Scrolling">
+    <ion-nav-buttons side="secondary">
+        <label class="item item-input">
+            <i class="icon ion-search placeholder-icon"></i>
+            <input type="text" placeholder="查詢條碼、呼出碼...等等">
+        </label>
+        <button class="button icon ion-funnel" ng-click="doSomething()">
+            篩選
+        </button>
+    </ion-nav-buttons>
+    <div class="bar bar-subheader row header text-center">
+        <div class="col" ng-click="sortBy('CALLING_NUM')">呼出碼</div>
+        <div class="col">品名</div>
+        <div class="col">規格</div>
+        <div class="col">單位</div>
+        <div class="col">售價</div>
+        <div class="col">數量</div>
+    </div>
+    <div class="button-bar bar bar-subfooter">
+        <button class="button button-block"
+                ng-repeat="item in Groups"
+                ng-click="click({{item}})"
+                ng-class="{'button-positive': ChooseGroup.Value!=item.Value,'button-calm':ChooseGroup.Value==item.Value}">
+            {{item.Name}}
+        </button>
+    </div>
+    <ion-content class="has-header has-subheader has-subfooter">
+        <div class="row text-center OrderItemColumn"
+             ng-repeat="item in filtered">
+            <div class="col">{{item.CALLING_NUM}}</div>
+            <div class="col">{{item.ALIAS}}</div>
+            <div class="col">{{item.SPEC_G}}</div>
+            <div class="col">{{item.UNIT_G}}</div>
+            <div class="col">{{item.PRICE_G}}</div>
+            <div class="col">{{item.QTY}}</div>
+        </div>
+        <ion-infinite-scroll ng-if="!data.noMoreItemsAvailable" on-infinite="loadMore()" distance="10%"></ion-infinite-scroll>
+    </ion-content>
+</ion-view>

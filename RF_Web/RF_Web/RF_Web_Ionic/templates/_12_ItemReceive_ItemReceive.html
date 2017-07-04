@@ -1,0 +1,66 @@
+<link href="css/style.css" type="text/css" rel="stylesheet" />
+<ion-view class="back">
+    <!--header-->
+    <ion-header-bar align-title="center" class="bar bar-header bar-dark">
+        <button ng-click="UnLock()" class="button icon ion-chevron-left">返回</button>
+        <h1 class="title">進貨驗收</h1>
+    </ion-header-bar>
+    <form>
+        <ion-content class="has-header has-footer" on-swipe-right="UnLock()">
+            <ul class="list list-inset con_back">            
+                <li class="item item-input-inset con_back">                   
+                    <span class="input-label con_back">{{result.UNIT}}</span>
+                    <button class="button button-small button-3d-primary button-positive"  ng-click="QTY_p()">+</button> &nbsp;
+                    <button class="button button-small button-3d-primary button-positive"  ng-click="QTY_n()">-</button>  &nbsp;
+                    <input id="txb_QTY"  type="tel" ng-model="data.QTY" 
+                           style="background-color:{{QTY_color.backColor}} ; color:{{QTY_color.fontColor}}"
+                           onkeypress='return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46' focus-me>
+                </li>
+                <li class="item item-input-inset con_back" ng-show="!result.PRICE_TYPE">
+                    <span class="input-label con_back">秤重重量(kg)</span>
+                    <button class="button button-small button-3d-primary button-positive" ng-click="WEIGHT_p()">+</button> &nbsp;
+                    <button class="button button-small button-3d-primary button-positive" ng-click="WEIGHT_n()">-</button>  &nbsp;
+                    <input id="txb_WEIGHT" type="tel" ng-model="data.WEIGHT"
+                           style="background-color:{{WEIGHT_color.backColor}} ; color:{{WEIGHT_color.fontColor}}"
+                           onkeypress='return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46'>
+                </li>
+                <li class="item item-input-inset con_back">
+                    <span class="input-label con_back">品質</span>
+                    <div class="button-bar">
+                        <button class="button button-block button-light" ng-style="{color: data.viewColor}" ng-click="QueryItemState()">{{data.QualityName}}</button>
+                    </div>
+                </li>
+                <li class="item item-input-inset con_back">
+                    <span class="input-label con_back">{{result.ROW1}}</span>
+                </li>
+                <li class="item item-input-inset con_back">
+                    <span class="input-label con_back">{{result.ROW2}}</span>
+                </li>
+                <li class="item item-input-inset con_back">
+                    <span class="input-label con_back">{{result.ROW3}}</span>
+                    <progress max="{{result.QTY}}" value="{{result.QTY}}" style="width:100px;margin-left:0px">{{result.QTY}} </progress>
+                </li>
+                <li class="item item-input-inset con_back">
+                    <span class="input-label con_back">{{result.ROW4}}</span>
+                </li>
+                <li class="item item-input-inset con_back">
+                    <span class="input-label con_back">{{result.ROW5}}</span>
+                </li>
+                <li class="item item-input-inset con_back">
+                    <span class="input-label con_back">{{result.ROW6}}</span>
+                </li>
+                <li class="item item-input-inset con_back">
+                    <span class="input-label con_back">{{result.ROW7}}</span>
+                </li>
+            </ul>
+        </ion-content>
+
+    </form>
+    <ion-footer-bar class="con_back" align-title="right">
+        <div class="button-bar">
+            <a class="button button-positive" ng-click="Receive()">驗收</a>
+        </div>
+        <h1 class="title" style="font-size:small;color:#FFFF37;">區域：{{BLOCK_uiselect }}</h1>
+    </ion-footer-bar>
+
+</ion-view>

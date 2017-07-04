@@ -1,0 +1,85 @@
+﻿<ion-view view-title="到貨日:{{SignDate}} 部門：{{ChooseGroup.Name}} 截止時間：{{ChooseGroup.SECONDS}} 秒">
+    <style type="text/css">
+        /* 大類清單取消scroll-bar */
+        .wide-as-needed {
+            overflow: scroll;
+            white-space: nowrap;
+        }
+
+        .scroll {
+            min-width: 100%;
+        }
+
+        .scroll-view.scroll-x {
+            overflow-x: hidden; /* default value is 'scroll' */
+        }
+        /*欲訂量的input*/
+        .QTYlabel {
+            width: 30%;
+            margin-top:3%;
+            text-align:center;
+            font-weight:bold;
+        }
+    </style>
+    <ion-nav-buttons side="left">
+        <button class="button icon icon-left ion-arrow-left-c" ng-click="Back()"></button>
+        <button class="button icon icon-left ion-ios-cart" ng-click="Cart()">訂單</button>
+    </ion-nav-buttons>
+    <ion-nav-buttons side="right">
+        <label class="item item-input">
+            <i class="icon ion-search placeholder-icon"></i>
+            <input type="search" placeholder="查詢條碼、呼出碼...等等" ng-model="data.filters.string" ng-keyup="customFilter()">
+        </label>
+        <button class="button icon ion-funnel" 
+                ng-class="{'button-dark': data.filters.hasFilter==false,'button-assertive':data.filters.hasFilter==true}"
+                ng-click="openModal()">
+            篩選
+        </button>
+    </ion-nav-buttons>
+    <div class="bar bar-subheader bar-dark">
+        <ion-scroll direction="x" class="wide-as-needed" style="width:100%">
+            <a class="button"
+               style="width:25%"
+               ng-repeat="item in Groups"
+               ng-click="click($index)"
+               ng-class="{'button-positive': ChooseGroup.Value!=item.Value,'button-calm':ChooseGroup.Value==item.Value}">
+                {{item.Name}}
+            </a>
+        </ion-scroll>
+    </div>
+    <ion-content class="has-header has-subheader" on-swipe-right="Back()">
+        <div class="col-header">
+            <div class="flex-container wrap">
+                <div class="column" ng-style="columnNOR">呼出碼</div>
+                <div class="column" ng-style="columnNOR">品名</div>
+                <div class="column" ng-style="columnNOR">規格</div>
+                <div class="column" ng-style="columnNOR">單位</div>
+                <div class="column" ng-style="columnNOR">售價</div>
+                <div class="column" ng-style="columnNOR">已訂量</div>
+                <div class="column" ng-style="columnQTY">欲訂量</div>
+            </div>
+        </div>
+        <div class="item low-pad-item"
+             ng-repeat="item in filtered|filter:customFilter2()">
+            <div class="flex-container wrap">
+                <div class="column" ng-style="columnNOR"><span>{{item.CALLING_NUM}}</span></div>
+                <div class="column" ng-style="columnNOR"><span>{{item.ALIAS}}</span></div>
+                <div class="column" ng-style="columnNOR"><span>{{item.SPEC}}</span></div>
+                <div class="column" ng-style="columnNOR"><span>{{item.UNIT}}</span></div>
+                <div class="column" ng-style="columnNOR"><span style="color:red">{{item.PRICE}}</span></div>
+                <div class="column" ng-style="columnNOR"><span class="h3">{{item.QTY}}</span></div>
+                <div class="column" ng-style="columnQTY">
+                    <a class="button icon-left ion-minus-round" ng-click="DelQty(item)"></a>
+                    <input class="QTYlabel" type="number" ng-model="item.OrderQty" style="display:unset;font-size:large" ng-click="onTextClick($event)">
+                    <a class="button icon-left ion-plus-round" ng-click="AddQty(item)"></a>
+                    <a class="button" 
+                       ng-class="{'button-positive': item.OrderQty!=0,'button-clear':item.OrderQty==0}" 
+                       ng-show="item.OrderQty!='0'"
+                       ng-click="SendOrder(item)">送出</a>
+                </div>
+            </div>
+        </div>
+
+        <ion-infinite-scroll ng-if="!data.noMoreItemsAvailable" on-infinite="loadMore()" distance="30%"></ion-infinite-scroll>
+    </ion-content>
+</ion-view>

@@ -1,0 +1,35 @@
+<ion-view>
+    <ion-header-bar class="bar bar-header">
+        <label class="item item-input-wrapper">
+            <span class="input-label">{{data.Value}}</span>
+        </label>
+    </ion-header-bar>
+    <ion-content>
+        <div class="has-header">
+            <div class="button-bar">
+                <a class="button" ng-click="click('1')">1</a>
+                <a class="button" ng-click="click('2')">2</a>
+                <a class="button" ng-click="click('3')">3</a>
+                <a class="button" ng-click="click('_')">_</a>
+            </div>
+            <div class="button-bar">
+                <a class="button" ng-click="click('4')">4</a>
+                <a class="button" ng-click="click('5')">5</a>
+                <a class="button" ng-click="click('6')">6</a>
+                <a class="button" ng-click="click('#')">#</a>
+            </div>
+            <div class="button-bar">
+                <a class="button" ng-click="click('7')">7</a>
+                <a class="button" ng-click="click('8')">8</a>
+                <a class="button" ng-click="click('9')">9</a>
+                <a class="button ion-backspace" ng-click="click('DEL')"></a>
+            </div>
+            <div class="button-bar">
+                <a class="button button-assertive" ng-click="click('AC')">AC</a>
+                <a class="button" ng-click="click('0')">0</a>
+                <a class="button" ng-click="click('.')">.</a>
+                <a class="button button-balanced" ng-click="click('OK')">OK</a>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

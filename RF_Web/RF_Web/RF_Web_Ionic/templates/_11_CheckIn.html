@@ -1,0 +1,67 @@
+<link href="css/style.css" type="text/css" rel="stylesheet" />
+<ion-view class="title">
+    <!--header-->
+    <ion-header-bar align-title="center" class="bar bar-header bar-dark title">
+        <a class="button icon ion-chevron-left" ng-click="Back()">返回</a>
+        <h1 class="title">進貨報到</h1>     
+    </ion-header-bar>
+    <!--subheader-->
+    <div class="bar bar-subheader con_back">
+        <label class=" item-input con_back">
+            <span class="input-label con_back">報到牌</span>
+            <input id="txb_CarNo" type="text" class=" ion ion-search" ng-model="data.CarNo" ng-value="result.REG_ID" ng-enter="search()" style="width:120px" focus-me>
+        </label>
+        <button class="button button-assertive icon ion-close" ng-click="reset()"></button>
+        <button class="button button-calm icon ion-search" ng-click="search()"></button>
+    </div>
+    <ion-content class="has-header  has-subheader con_back" on-swipe-right="Back()" >
+        <ul class="list list-inset con_back" >
+            <li class="item item-input con_back">
+                <span class="input-label con_back">狀態</span>
+                <label class="input-label con_back" ng-style="{color: data.viewColor}">{{result.ROW10}}</label>
+            </li>
+            <li class="item item-input-inset con_back">
+                <span class="input-label con_back">物流公司</span>{{result.TRAN_NAME}}
+            </li>
+            <li class="item item-input-inset con_back">
+                <span class="input-label con_back">報到車牌</span>{{result.VEHICLE_NO}} {{result.VEHICLE_DRIVER}}
+            </li>
+            <li class="item item-input-inset con_back">
+                <span class="input-label con_back">指派碼頭</span>{{result.DOCK_NAME}}
+            </li>
+            <li class="item item-input-inset con_back">
+                <span class="input-label con_back">冷凍溫度</span>
+                <button class="button button-small button-3d-primary button-positive" ng-disabled="data.IsDisabled"  ng-click="VEHICLE_TEMP0_p()">+</button> &nbsp;
+                <button class="button button-small button-3d-primary button-positive" ng-disabled="data.IsDisabled"  ng-click="VEHICLE_TEMP0_n()">-</button>  &nbsp;
+                <input id="txb_CarNo" type="tel" ng-model="result.VEHICLE_TEMP0"  ng-disabled="data.IsDisabled"
+                       style="background-color:{{VEHICLE_TEMP0_color.backColor}} ; color:{{VEHICLE_TEMP0_color.fontColor}}" 
+                       onkeypress='return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46'>
+            </li>
+            <li class="item item-input-inset con_back">
+                <span class="input-label con_back">冷藏溫度</span>
+                <button class="button button-small button-3d-primary button-positive"  ng-disabled="data.IsDisabled" ng-click="VEHICLE_TEMP1_p()">+</button> &nbsp;
+                <button class="button button-small button-3d-primary button-positive"  ng-disabled="data.IsDisabled" ng-click="VEHICLE_TEMP1_n()">-</button>  &nbsp;
+                <input id="txb_CarNo" type="tel" ng-model="result.VEHICLE_TEMP1"  ng-disabled="data.IsDisabled"
+                       style="background-color:{{VEHICLE_TEMP1_color.backColor}} ; color:{{VEHICLE_TEMP1_color.fontColor}}" 
+                       onkeypress='return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46'>
+            </li>
+            <li class="item item-input-inset con_back">
+                <span class="input-label con_back">溫控溫度</span>
+                <button class="button button-small button-3d-primary button-positive"  ng-disabled="data.IsDisabled" ng-click="VEHICLE_TEMP2_p()">+</button> &nbsp;
+                <button class="button button-small button-3d-primary button-positive"  ng-disabled="data.IsDisabled" ng-click="VEHICLE_TEMP2_n()">-</button>  &nbsp;
+                <input id="txb_CarNo" type="tel" ng-model="result.VEHICLE_TEMP2"  ng-disabled="data.IsDisabled"
+                       style="background-color:{{VEHICLE_TEMP2_color.backColor}} ; color:{{VEHICLE_TEMP2_color.fontColor}}" 
+                       onkeypress='return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46'>
+            </li>
+        </ul>
+    </ion-content>
+    <ion-footer-bar class="bar-subfooter con_back" >
+        <div class="button-bar" >
+            <a class="button  button-positive " ng-click="register()" ng-disabled="data.IsDisabled">報到</a>
+        </div>
+       
+    </ion-footer-bar>
+    <ion-footer-bar class="con_back" align-title="right">
+        <h1 class="title" style="font-size:small;color:#FFFF37;"> 區域：{{BLOCK_uiselect }}</h1>
+    </ion-footer-bar>
+</ion-view>

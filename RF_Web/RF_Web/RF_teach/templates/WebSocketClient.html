@@ -1,0 +1,29 @@
+﻿<ion-view ng-init="contentLoaded()">
+    <ion-content>
+        <ion-item class="item item-input  item-stacked-label">
+            <span class="input-label">URL</span>
+            <input type="text" ng-model="data.URL" />
+        </ion-item>
+        <button class="button button-block button-positive" ng-click="openSocket()">
+            SendWebSocket
+        </button>
+
+        <div>
+            <ion-item class="item item-input  item-stacked-label">
+                <span class="input-label">Message</span>
+                <input type="text" ng-model="data.SendMessage" />
+            </ion-item>
+            <button class="button button-block button-positive" ng-click="SocketSend()" ng-disabled="!data.SocketIsEnabled">
+                SendMsg
+            </button>
+            <button class="button button-block button-calm" ng-click="SocketClose()">
+                Close
+            </button>
+        </div>
+        <div class="list">
+            <ion-item ng-repeat="item in data.log">
+                {{item}}
+            </ion-item>
+        </div>
+    </ion-content>
+</ion-view>

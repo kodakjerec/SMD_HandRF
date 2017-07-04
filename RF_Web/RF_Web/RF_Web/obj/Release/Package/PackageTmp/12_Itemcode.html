@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Expires" content="0">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Basic DataGrid - jQuery EasyUI Demo</title>
+    <link rel="stylesheet" type="text/css" href="scripts/themes/default/easyui.css" />
+    <link rel="stylesheet" type="text/css" href="scripts/themes/mobile.css" /> 
+    <link rel="stylesheet" type="text/css" href="scripts/themes/icon.css" />
+
+    <script type="text/javascript" src="scripts/jquery.min.js"></script>
+    <script type="text/javascript" src="scripts/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="scripts/jquery.easyui.mobile.js"></script>
+    <script type="text/javascript" src="scripts/Myjs/jquery.session.js"></script>
+    <script type="text/javascript" src="scripts/Myjs/js.cookie.js"></script>
+    <script type="text/javascript">
+        //永遠重新讀取
+        $.ajax({
+            url: "scripts/Myjs/12_ItemCode.js",
+            dataType: "script",
+            success: function (event) { }
+        });
+    </script>
+    <link rel="stylesheet" type="text/css" href="scripts/Mycss/MyeasyUI.css" />
+    
+</head>
+<body>
+    <div class="easyui-navpanel">
+        <header>
+            <div class="m-toolbar">
+                輸入商品條碼
+            </div>
+        </header>
+        <div>
+            <input id="txb_ItemCode" type="number"  class="easyui-textbox" data-options="prompt:'請刷入條碼', label:'商品條碼',labelWidth:'120', width:'100%', value:''">
+        </div>
+        <div id="div_ItemContent" class="easyui-panel" data-options="closed:true">
+            <span id="span_ROW1">123456 品名規格</span><br />
+            <span id="span_ROW2">約 0g/售價 0</span><br />
+            <input id="txb_LOT" type="number" class="easyui-textbox" data-options="prompt:'請刷入批號',label:'批號',width:'100%',value:'',disabled:true" /><br />
+            <input id="txb_SunDay" class="easyui-textbox" data-options="prompt:'請刷入太陽日',label:'太陽日',width:'100%',value:'',disabled:true" /><br />
+            <input id="txb_Temperature" type="number" class="easyui-textbox" data-options="prompt:'輸入溫度',label:'溫度',width:'40%',value:'',disabled:true" />
+            <input id="txb_UnderTemperature" type="number" class="easyui-textbox" data-options="prompt:'輸入溫度',label:'零下',width:'40%',value:'',disabled:true" /><br />
+            <span id="span_ROW3">本單應收 0 待收 0</span><br />
+            <span id="span_ROW4">應抽驗數 0(5%)</span><br />
+            <span id="span_ROW5">已收良品 0</span><br />
+            <span id="span_ROW6">已收不良 0</span><br />
+            <span id="span_ROW7">已收搭贈 0</span><br />
+        </div>
+        <div class="easyui-panel">
+            <span id="span_CarNo">報到牌</span><br />
+            <span id="span_PaperNo">訂單編號</span><br />
+        </div>
+        <footer>
+            <div id="div_footer" class="m-toolbar">
+                <a href="#" id="btn_Previous" class="easyui-linkbutton" data-options="group:'g1'">
+                    上一頁
+                </a>
+                <a href="#" id="btn_Fun1" class="easyui-linkbutton" data-options="group:'g1'">
+                    <span>
+                        單品完成
+                    </span>
+                </a>
+                <a href="#" id="btn_Fun2" class="easyui-linkbutton" data-options="group:'g1',disabled:true">
+                    <span>
+                        Fun2
+                    </span>
+                </a>
+                <a href="#" id="btn_NextStep" class="easyui-linkbutton" data-options="group:'g1'">
+                    <span>
+                        下一頁
+                    </span>
+                </a>
+            </div>
+        </footer>
+    </div>
+    <div id="dlg1"></div>
+</body>
+</html>

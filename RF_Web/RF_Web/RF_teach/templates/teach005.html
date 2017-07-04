@@ -1,0 +1,28 @@
+﻿<ion-view view-title="teach005 jquery">
+    <style type="text/css">
+        #map {
+            width: 100%;
+            height: 100%;
+            background-color: #fff !important;
+        }
+
+        .scroll {
+            height: 100%;
+        }
+
+        .map-container {
+            background-color: #fff;
+            padding-left: 20px;
+            padding-right: 20px;
+            padding-bottom: 10px;
+            width: 100%;
+            height: 300px;
+        }
+    </style>
+    <ion-content class="has-header">
+        <button class="button button-block button-positive" ng-click="getPosition()"  >
+            顯示地圖
+        </button>
+        <div id="map" data-tap-disabled="true"></div>
+    </ion-content>
+</ion-view>

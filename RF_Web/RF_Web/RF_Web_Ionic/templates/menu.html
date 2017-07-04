@@ -1,0 +1,28 @@
+<link href="css/style.css" type="text/css" rel="stylesheet" />
+<ion-view class="text-center back">
+    <!--header-->
+    <div align-title="center" class="bar bar-header bar-dark ">
+        <br />
+        <a class="button icon ion-chevron-left" ng-click="Back()">返回</a>
+        <h1 class="title">選單</h1>
+    </div>
+   <!--content-->
+    <ion-content class="has-header">
+        <div class=" btn_list card">
+            <button class="btn_list  button button-dark button-block" 
+                    ng-repeat="item in Lists"
+                    ng-value="item.Value" 
+                   ng-click="click(item.Value)"
+                    style="color:#ff7575">
+              {{item.Name}}
+            </button>
+        </div>       
+
+
+
+    </ion-content>
+
+    <ion-footer-bar class="bar bar-footer con_back" align-title="right">
+        <h1 class="title"style="font-size:small;color:#FFFF37;" >區域：{{BLOCK_uiselect}}</h1>
+    </ion-footer-bar>
+</ion-view>

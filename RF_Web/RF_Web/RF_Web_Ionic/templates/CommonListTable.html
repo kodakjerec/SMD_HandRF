@@ -1,0 +1,20 @@
+<link href="css/style.css" type="text/css" rel="stylesheet" />
+<ion-modal-view view-title="Lists" ng-controller="CommonListTableCtrl" class="back">
+    <ion-header-bar align-title="center" class="bar bar-header bar-dark">
+        <div class="buttons back">
+            <button class="button button-assertive" ng-click="Confirm('NO')">返回</button>
+        </div>
+        <h1 class="title">選擇一個選項</h1>
+        <!--<div class="buttons">
+            <button class="button button-positive" ng-click="Confirm('OK')">確定</button>
+        </div>-->
+    </ion-header-bar>
+    <ion-content on-swipe-right="Confirm('NO')" >
+        <ion-list >
+            <ion-radio class="detail" ng-repeat="ListItem in Lists" ng-value="{{ListItem.Value}}" ng-click="SelectItem(ListItem)">
+                {{ListItem.Name}}
+            </ion-radio>
+        </ion-list>
+    </ion-content>
+</ion-modal-view>
+

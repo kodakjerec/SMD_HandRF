@@ -1,0 +1,19 @@
+﻿<ion-view view-title="選擇部門別">
+    <ion-nav-buttons side="left">
+        <button class="button icon icon-left ion-arrow-left-c" ng-click="Back()"></button>
+    </ion-nav-buttons>
+
+    <ion-content class="has-header" on-swipe-right="Back()">
+        <div class="list list-inset">
+            <ion-item class="text-center"
+                      ng-repeat="item in Groups">
+                <a class="button-block" 
+                   ng-click="click(item)">
+                    <span class="h1">{{item.Name}}</span>
+                    <span ng-show="item.SECONDS>0">可以下單</span>
+                    <span ng-show="item.SECONDS<=0" style="color:red">停止下單</span>
+                </a>
+            </ion-item>
+        </div>
+    </ion-content>
+</ion-view>

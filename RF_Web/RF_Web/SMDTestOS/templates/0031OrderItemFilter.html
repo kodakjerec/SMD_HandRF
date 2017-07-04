@@ -1,0 +1,16 @@
+﻿<ion-modal-view>
+    <ion-header-bar class="bar-dark">
+     <h1 class="title">篩選條件</h1>
+    </ion-header-bar>
+    <ion-footer-bar class="bar-dark">
+        <h1 class="title" ng-click="closeModal()">關閉</h1>
+    </ion-footer-bar>
+    <ion-content class="has-header has-footer">
+        <ion-list>
+            <ion-toggle ng-model="data.filters.check1.Value">
+                {{data.filters.check1.Name}}
+            </ion-toggle>
+        </ion-list>
+
+    </ion-content>
+</ion-modal-view>

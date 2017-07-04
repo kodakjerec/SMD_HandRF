@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Expires" content="0">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>報到牌報到</title>
+    <link rel="stylesheet" type="text/css" href="scripts/themes/default/easyui.css" />
+    <link rel="stylesheet" type="text/css" href="scripts/themes/mobile.css" />
+    <link rel="stylesheet" type="text/css" href="scripts/themes/icon.css" />
+    <script type="text/javascript" src="scripts/jquery.min.js"></script>
+    <script type="text/javascript" src="scripts/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="scripts/jquery.easyui.mobile.js"></script>
+    <script type="text/javascript" src="scripts/Myjs/jquery.session.js"></script>
+    <script type="text/javascript" src="scripts/Myjs/js.cookie.js"></script>
+    <script type="text/javascript">
+        //永遠重新讀取
+        $.ajax({
+            url: "scripts/Myjs/11_CarCheck.js",
+            dataType: "script",
+            success: function (event) { }
+        });
+    </script>
+    <link rel="stylesheet" type="text/css" href="scripts/Mycss/MyeasyUI.css" />
+</head>
+<body>
+    <div class="easyui-navpanel">
+        <header>
+            <div id="div_header" class="m-toolbar">
+                報到牌報到
+            </div>
+        </header>
+        <!--報到牌<a id="btn_CarNo" class="easyui-linkbutton" data-options="text:'點擊輸入報到牌',width:'80%' ">-->
+        <input id="btn_CarNo" type="text" class="easyui-textbox" data-options="prompt:'請刷入報到牌', label:'報到牌', width:'100%', value:''">
+        </a>
+        <div id="div_ItemContent" class="easyui-panel" data-options="closed:true">
+            <span id="span_ROW1">未報到</span><br />
+            <span id="span_ROW2">物流公司</span><br />
+            <span id="span_ROW3">報到車牌</span><br />
+            <span id="span_ROW4">指派碼頭</span><br />
+            <input id="txb_Temperature0" type="text" class="easyui-textbox" data-options="prompt:'輸入溫度',label:'冷凍',width:'40%',value:''" />
+            <input id="txb_UnderTemperature0" type="text" class="easyui-textbox" data-options="prompt:'輸入溫度',label:'零下',width:'40%',value:''" /><br />
+            <input id="txb_Temperature1" type="text" class="easyui-textbox" data-options="prompt:'輸入溫度',label:'冷藏',width:'40%',value:''" />
+            <input id="txb_UnderTemperature1" type="text" class="easyui-textbox" data-options="prompt:'輸入溫度',label:'零下',width:'40%',value:''" /><br />
+            <input id="txb_Temperature2" type="text" class="easyui-textbox" data-options="prompt:'輸入溫度',label:'溫控',width:'40%',value:''" />
+            <input id="txb_UnderTemperature2" type="text" class="easyui-textbox" data-options="prompt:'輸入溫度',label:'零下',width:'40%',value:''" /><br />
+        </div>
+        <footer>
+            <div id="div_footer" class="m-toolbar">
+                <a href="#" id="btn_Previous" class="easyui-linkbutton" data-options="group:'g1'">
+                    上一頁
+                </a>
+                <a href="#" id="btn_Fun1" class="easyui-linkbutton" data-options="group:'g1',disabled:true">
+                    <span>
+                        Fun1
+                    </span>
+                </a>
+                <a href="#" id="btn_Fun2" class="easyui-linkbutton" data-options="group:'g1',disabled:true">
+                    <span>
+                        Fun2
+                    </span>
+                </a>
+                <a href="#" id="btn_NextStep" class="easyui-linkbutton" data-options="group:'g1'">
+                    <span>
+                        報到
+                    </span>
+                </a>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

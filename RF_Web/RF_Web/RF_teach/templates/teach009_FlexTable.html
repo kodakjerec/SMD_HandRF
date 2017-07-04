@@ -1,0 +1,44 @@
+﻿<ion-view view-title="teach009 FlexTable">
+    <link href="css/ResponsiveColumn.css" rel="stylesheet">
+    <ion-nav-buttons side="secondary">
+        <label class="item item-input">
+            <i class="icon ion-search placeholder-icon"></i>
+            <input type="text" placeholder="查詢條碼、呼出碼...等等">
+        </label>
+        <button class="button icon ion-funnel" ng-click="doSomething()">
+            篩選
+        </button>
+    </ion-nav-buttons>
+    <div class="button-bar bar bar-subfooter">
+        <button class="button button-block"
+                ng-repeat="item in Groups"
+                ng-click="click({{item}})"
+                ng-class="{'button-positive': ChooseGroup.Value!=item.Value,'button-calm':ChooseGroup.Value==item.Value}">
+            {{item.Name}}
+        </button>
+    </div>
+    <ion-content class="has-header has-subfooter">
+        <div class="item col-header item-icon-right">
+            <div class="flex-container wrap">
+                <div class="column" ng-click="sortBy('CALLING_NUM')">呼出碼</div>
+                <div class="column">品名</div>
+                <div class="column">規格</div>
+                <div class="column">單位</div>
+                <div class="column">售價</div>
+                <div class="column">數量</div>
+            </div>
+        </div>
+        <div class="item low-pad-item item-icon-right"
+             ng-repeat="item in filtered">
+            <div class="flex-container wrap">
+                <div class="column">{{item.CALLING_NUM}}</div>
+                <div class="column">{{item.ALIAS}}</div>
+                <div class="column">{{item.SPEC_G}}</div>
+                <div class="column">{{item.UNIT_G}}</div>
+                <div class="column">{{item.PRICE_G}}</div>
+                <div class="column">{{item.QTY}}</div>
+            </div>
+        </div>
+        <ion-infinite-scroll ng-if="!data.noMoreItemsAvailable" on-infinite="loadMore()" distance="10%"></ion-infinite-scroll>
+    </ion-content>
+</ion-view>

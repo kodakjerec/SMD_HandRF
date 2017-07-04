@@ -1,0 +1,20 @@
+﻿<ion-view view-title="選擇到貨日">
+    <ion-nav-buttons side="secondary">
+        <button class="button icon ion-android-refresh" ng-click="reload()">
+            重新整理
+        </button>
+        <button class="button icon ion-ios-monitor-outline" ng-click="changeFullScreen()">
+            全螢幕
+        </button>
+    </ion-nav-buttons>
+    <ion-content class="has-header" on-swipe-right="Back()">
+        <div class="list list-inset">
+            <ion-item class="text-center"
+                 ng-repeat="item in dates">
+                <a class="button-block button-positive" ng-click="click(item)">
+                    <span class="h1">{{item.RECEIVE_DATE}}</span>
+                </a>
+            </ion-item>
+        </div>
+    </ion-content>
+</ion-view>
