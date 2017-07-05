@@ -1,281 +1,4 @@
-angular.module('starter.controllers', [])
-.controller('CommonListTableCtrl', function ($rootScope, $scope, $ionicPopup) {
-    //以下為選取清單
-    //assign to Global
-    $rootScope.$on("Call_ListTable", function () {
-        $scope.LoadData();
-    });
-
-    //Load Data 
-    $scope.LoadData = function () {
-        //清單
-        if ($rootScope.CommonListTable != undefined) 
-            $scope.Lists = $rootScope.CommonListTable;
-
-        //回傳選擇
-        if ($rootScope.CommonListTableAnswer == undefined) 
-            $rootScope.CommonListTableAnswer = { Name: '', Value: '' };
-        
-        $scope.data = $rootScope.CommonListTableAnswer;
-
-        if ($scope.data.Value == '' || $scope.data.Value == undefined) {
-            $scope.data.Value = $scope.Lists[0].Value;
-            $scope.data.Name = $scope.Lists[0].Name;
-        }
-    }
-
-    //return Object
-    $scope.data = { Name: '', Value: '' };
-
-    //Confirm-Click
-    $scope.SelectItem = function (item) {
-        $scope.data = item;
-
-        $scope.modal.hide();
-        $rootScope.CommonListTableAnswer = $scope.data;
-        $rootScope.$emit('Call_ListTable_AssignData', {});
-    };
-    $scope.Confirm = function (flag) {
-        if (flag != 'OK') 
-            $scope.data = { Name: '', Value: '' };
-        
-        $scope.modal.hide();
-        $rootScope.CommonListTableAnswer = $scope.data;
-        $rootScope.$emit('Call_ListTable_AssignData', {});
-    };
-
-    ///以下為數字小鍵盤///
-    //assign to Global
-    $rootScope.$on("Call_KeyboardNumber", function () {
-        $scope.LoadKeyboardNumber();
-    });
-    var popup;
-    $scope.click = function (flag) {
-        switch (flag) {
-            case 'OK':
-                $rootScope.CommonListTableAnswer = $scope.data.Value;
-                $rootScope.$emit('Call_KeyboardNumber_AssignData', {});
-                popup.close();
-                break;
-            case 'AC':
-                $scope.data.Value = '';
-                break;
-            default:
-                $scope.data.Value += flag;
-        }
-    };
-    $scope.LoadKeyboardNumber = function () {
-        $scope.data.Value = $rootScope.CommonListTableAnswer;
-
-        popup = $ionicPopup.show({
-            cssClass: 'KeyboardNumber',
-            templateUrl: 'templates/KeyboardNumber.html',
-            scope: $scope
-        });
-    };
-})
-.controller('loginCtrl', function ($rootScope, $scope, $http, $ionicPopup, $state, $timeout, login) {
-    //$rootScope.ServerIP = 'localhost:1793';
-    $rootScope.ServerIP = '192.168.100.134/RF_DB'; 
-    $rootScope.UserInf = { UserName: '', CarNo: '', PaperNo: '', IDNo: '', ItemCode: '', HOID: '', LOT_ID: '' };
-    $rootScope.BLOCK_fromdb = { ID: '', BLOCK_ID: '', BLOCK_NAME: '' };// 單一帳號可登入的區域，[可能多區]
-    $rootScope.BLOCK_uiselect = { ID: '', BLOCK_ID: '', BLOCK_NAME: '' };// 單一帳號選擇登入區域，[只能一區]
-    $scope.loginData = { username: '', password: '' };// login 資訊
-
-    //登入。驗證帳號密碼，SP：[sys.spDCS_LOGIN]     
-    $scope.doLogin = function () { 
-        login.spDCS_LOGIN($scope.loginData.username, $scope.loginData.password).then(function (response) {
-            if (response.data[0].LOGIN_RESULT != "0") 
-                var msg = $ionicPopup.alert({ title: '錯誤', template: response.data[0].LOGIN_MESSAGE});
-            else {
-                $rootScope.UserInf.UserName = $scope.loginData.username;
-                $rootScope.BLOCK_fromdb = response.data;
-
-                switch ($rootScope.BLOCK_fromdb.length) {
-                    case 0:
-                        var msg = $ionicPopup.alert({ title: '錯誤', template: '此帳號沒有可使用區域' });
-                        break;
-                    case 1:
-                        $rootScope.BLOCK_uiselect = response.data[0].BLOCK_ID;
-                        $state.go('menu');
-                        break;
-                    default:
-                        $state.go('block');
-                        break;
-                }
-            }
-        })
-    };
-})
-.controller('menuCtrl', function ($rootScope, $scope, $state, login) {
-
-    if ($rootScope.UserInf == undefined) {
-        $state.go('login');
-        window.history.pushState(null, null, 'login');
-    }
-    else {
-
-            //選單內容
-            $scope.Lists = [
-                { Name: '進貨報到', Value: 'CheckIn' },
-                { Name: '進貨檢品', Value: 'IR_CarNo' },
-                { Name: '測試功能', Value: 'test_menu' },
-                { Name: '離開', Value: 'login' }
-            ];
-
-            //回上頁btn
-            $scope.Back = function () {
-                window.history.back();
-            };
-
-            //選功能
-            $scope.click = function (url) {
-                $state.go(url);
-                if (url == "login")
-                    window.history.pushState(null, null, 'login');
-            };
-
-    }//else
-
-      
-
-})
- .controller('blockCtrl', function ($rootScope, $scope, $state) {
-     if ($rootScope.UserInf == undefined)
-         $state.go('login');
-
-     //選區域
-     $scope.click = function (res) {
-         $rootScope.BLOCK_uiselect = res;
-         $state.go('menu');
-        }
- })
-.controller('CheckInCtrl', function ($rootScope, $scope, $ionicPopup, $timeout, $state, _11_CheckIn) {
-    if ($rootScope.UserInf == undefined) 
-        $state.go('login');
-
-    $scope.data = { CarNo: '', viewColor: '', IsDisabled: true };  // IsDisabled控制"btn報到"是否顯示，預設不顯示：IsDisabled = true
-    $scope.color = { green: '#79FF79', red: '#FF5151' }; // 控制已報到/未報到 顏色
-    $scope.result = {};
-
-    //重置btn
-    $scope.reset = function () {
-        $rootScope.UserInf.CarNo = '';
-        $scope.data = { CarNo: '', viewColor: '', IsDisabled: true };
-        $scope.result = {};       
-    };
-
-    //回上頁btn
-    $scope.Back = function () {
-        $scope.reset();
-        window.history.back();
-    };
-
-    //查詢報到牌btn
-    $scope.search = function () {        
-        if ($scope.data.CarNo == '') 
-            return;
-
-        _11_CheckIn.QueryCarNo($scope.data.CarNo).then(function (response) {
-            if (response == '' || response == undefined)
-                return;
-            else {
-                var obj_response = response.data.rows[0];
-                switch (obj_response.RT_CODE)
-                {
-                    case 0:
-                        $scope.result = obj_response;
-                        
-                        //1.控制ui 已報到/未報到 顯示顏色
-                        //2.控制ui 已報到/未報到 IsDisabled的 狀態，已報到：IsDisabled = true[不開放keyin]；未報到：IsDisabled = true[不開放keyin]
-                        if ($scope.result.ROW10 == '未報到') 
-                            $scope.data = {CarNo:$scope.data.CarNo, viewColor: $scope.color.red, IsDisabled: false };
-                        else 
-                            $scope.data = {CarNo:$scope.data.CarNo, viewColor: $scope.color.green, IsDisabled: true };
-                        break;
-                    case 1:
-                        var msg = $ionicPopup.alert({ title: '錯誤', template: obj_response.RT_MSG });
-                        msg.then(function (res) { //auto-focus
-                            document.getElementById('txb_CarNo').select();
-                        });
-                        break;
-                    default:
-                        var msg = $ionicPopup.alert({ title: '錯誤', template: "未知的錯誤碼，RT_CODE回傳值為：" + obj_response.RT_CODE });
-                        msg.then(function (res) { 
-                            document.getElementById('txb_CarNo').select();
-                        });
-                        break;
-                }
-            }//else
-        }); //_11_CheckIn      
-    };//查詢報到牌btn END
-
-    //20170613需求，加入溫度正負按鈕
-    $scope.neg = { backColor: '#FFD306', fontColor: 'red' };
-    $scope.pos = { backColor: 'black', fontColor: 'white' };
-
-    $scope.VEHICLE_TEMP0_color = { backColor: 'black', fontColor: 'white' };
-    $scope.VEHICLE_TEMP1_color = { backColor: 'black', fontColor: 'white' };
-    $scope.VEHICLE_TEMP2_color = { backColor: 'black', fontColor: 'white' };
-
-    $scope.VEHICLE_TEMP0_p = function () {
-            $scope.VEHICLE_TEMP0_color = $scope.pos;
-    }
-    $scope.VEHICLE_TEMP0_n = function () {
-            $scope.VEHICLE_TEMP0_color = $scope.neg;
-    }
-    $scope.VEHICLE_TEMP1_p = function () { 
-            $scope.VEHICLE_TEMP1_color = $scope.pos;
-    }
-    $scope.VEHICLE_TEMP1_n = function () {
-            $scope.VEHICLE_TEMP1_color = $scope.neg;
-    }
-    $scope.VEHICLE_TEMP2_p = function () {
-            $scope.VEHICLE_TEMP2_color = $scope.pos;
-    }
-    $scope.VEHICLE_TEMP2_n = function () {
-            $scope.VEHICLE_TEMP2_color = $scope.neg;
-    }//溫度正負按鈕END
-    //報到牌報到btn
-    $scope.register = function () {
-        if ($scope.data.CarNo == '')
-            return;
-        if ($scope.data.IsDisabled == false) {
-            //20170613需求，加入溫度正負判斷，若選擇為負數，需將數值改成負，但ui不可顯示負號
-            var TEMP0 = $scope.result.VEHICLE_TEMP0;
-            var TEMP1 = $scope.result.VEHICLE_TEMP1;
-            var TEMP2 = $scope.result.VEHICLE_TEMP2;
-
-            if ($scope.VEHICLE_TEMP0_color == $scope.neg)
-                TEMP0 = -TEMP0;
-            if ($scope.VEHICLE_TEMP1_color == $scope.neg)
-                TEMP1 = -TEMP1;
-            if ($scope.VEHICLE_TEMP2_color == $scope.neg)
-                TEMP2 = -TEMP2;
-
-            console.log($scope.data.CarNo);
-            _11_CheckIn.CarCheck($scope.data.CarNo, TEMP0, TEMP1, TEMP2, $rootScope.UserInf.UserName).then(function (response) {
-                if (response == '' || response == undefined) 
-                    return;  
-                else {
-                    var obj_response = response.data.rows[0];
-                    switch (obj_response.RT_CODE) {
-                        case 0:
-                            var msg = $ionicPopup.alert({ title: '成功', template: obj_response.RT_MSG });
-                            $scope.reset();
-                            break;
-                        default:
-                            var msg = $ionicPopup.alert({ title: '錯誤', template: obj_response.RT_MSG });
-                            msg.then(function (res) {
-                                document.getElementById('txb_CarNo').select();
-                            });
-                            break;
-                    }     
-                }//else
-            });
-        }//if IsDisabled == false
-    };//報到牌報到btn END
-})
+angular.module('starter.controllers')
 .controller('IR_CarNoCtrl', function ($rootScope, $scope, $ionicPopup, $timeout, $ionicModal, $state, _11_CheckIn) {
     if ($rootScope.UserInf == undefined)
         $state.go('login');
@@ -283,7 +6,7 @@ angular.module('starter.controllers', [])
 
     if ($rootScope.CarNo_result == undefined) {
         $scope.data = { CarNo: '', viewColor: '', IsDisabled: true };
-        $scope.color = { green: '#79FF79', red: '#FF5151' }; 
+        $scope.color = { green: '#79FF79', red: '#FF5151' };
         $scope.result = {};
     }
     else {
@@ -315,7 +38,7 @@ angular.module('starter.controllers', [])
             $state.go('IR_PaperNo');
         }
     };
-   
+
     //查詢報到牌btn
     $scope.search = function () {
         if ($scope.data.CarNo == '')
@@ -333,9 +56,9 @@ angular.module('starter.controllers', [])
                             $scope.result = obj_response;
                             $scope.data.CarNo = obj_response.VEHICLE_NO;
                             $rootScope.UserInf.CarNo = obj_response.VEHICLE_NO;
-                            $scope.data = { CarNo:$scope.data.CarNo, viewColor:$scope.color.green, IsDisabled:false};
+                            $scope.data = { CarNo: $scope.data.CarNo, viewColor: $scope.color.green, IsDisabled: false };
 
-                            if ($scope.result.ROW10 == '未報到') 
+                            if ($scope.result.ROW10 == '未報到')
                                 $scope.data = { CarNo: $scope.data.CarNo, viewColor: $scope.color.red, IsDisabled: true };
                             else
                                 $scope.data = { CarNo: $scope.data.CarNo, viewColor: $scope.color.green, IsDisabled: false };
@@ -390,7 +113,7 @@ angular.module('starter.controllers', [])
     }; //查詢報到牌驗收明細btn END
 
     //讀入多選清單(default)
-    $ionicModal.fromTemplateUrl('templates/CommonListTable.html', {scope: $scope}).then(function (modal) {
+    $ionicModal.fromTemplateUrl('templates/CommonListTable.html', { scope: $scope }).then(function (modal) {
         $scope.modal = modal;
     });
 
@@ -413,7 +136,7 @@ angular.module('starter.controllers', [])
     //宣告，全域可串
     if ($rootScope.PaperNo_result == undefined) {
         $scope.data = { PaperNo: '', IsDisabled: true };
-        $scope.result = { ITEM_QTY: 0, ITEM_QTY0: 0, ITEM_QTY1: 0, ITEM_QTY2: 0};
+        $scope.result = { ITEM_QTY: 0, ITEM_QTY0: 0, ITEM_QTY1: 0, ITEM_QTY2: 0 };
     }
     else {
         $scope.result = $rootScope.PaperNo_result;
@@ -446,7 +169,7 @@ angular.module('starter.controllers', [])
     };
 
     //讀入多選清單(default)
-    $ionicModal.fromTemplateUrl('templates/CommonListTable.html', {scope: $scope}).then(function (modal) {
+    $ionicModal.fromTemplateUrl('templates/CommonListTable.html', { scope: $scope }).then(function (modal) {
         $scope.modal = modal;
     });
 
@@ -469,7 +192,7 @@ angular.module('starter.controllers', [])
     $scope.search = function () {
         if ($scope.data.PaperNo == '')
             return;
-  
+
         $ionicModal.fromTemplateUrl('templates/CommonListTable.html', { scope: $scope }).then(function (modal) {
             $scope.modal = modal;
         });
@@ -479,12 +202,12 @@ angular.module('starter.controllers', [])
         $scope.result = undefined;
 
         _12_PaperNo.Query($rootScope.UserInf.CarNo, $scope.data.PaperNo, $rootScope.UserInf.UserName).then(function (response) {
-            if (response == '' || response == undefined) 
+            if (response == '' || response == undefined)
                 return;
             else {
                 //超過一筆查詢回來, 必定為多選
                 if (response.data.rows.length > 1) {
-                    
+
                     //多選小視窗必定要的內容
                     var dataTable = [];
                     angular.forEach(response.data.rows, function (value, key) {
@@ -524,7 +247,7 @@ angular.module('starter.controllers', [])
             return;
 
         //讀入明細清單
-        $ionicModal.fromTemplateUrl('templates/_12_ItemReceive_PaperDetail.html', {scope: $scope}).then(function (modal) {
+        $ionicModal.fromTemplateUrl('templates/_12_ItemReceive_PaperDetail.html', { scope: $scope }).then(function (modal) {
             $scope.modal = modal;
         });
 
@@ -534,7 +257,7 @@ angular.module('starter.controllers', [])
             else {
                 var obj_response = response.data.rows[0];
                 if (obj_response.RT_CODE != '0') {
-                    var msg = $ionicPopup.alert({ title: '錯誤', template: obj_response.RT_MSG  });
+                    var msg = $ionicPopup.alert({ title: '錯誤', template: obj_response.RT_MSG });
                     msg.then(function (res) {
                         document.getElementById('txb_PaperNo').select();
                     });
@@ -601,7 +324,7 @@ angular.module('starter.controllers', [])
 
     //Init
     if ($rootScope.ItemCode_result == undefined) {
-        $scope.data = {ItemCode: '',  viewColor: '#FF5151',  IsDisabled: true, SunDay_Text: '日期',  LOT: '', SunDay: '', Temp: '' };
+        $scope.data = { ItemCode: '', viewColor: '#FF5151', IsDisabled: true, SunDay_Text: '日期', LOT: '', SunDay: '', Temp: '' };
         $scope.result = {};
     }
     else {
@@ -655,7 +378,7 @@ angular.module('starter.controllers', [])
         $scope.AssignData();
     });
 
-        $scope.search = function () {
+    $scope.search = function () {
         if ($scope.data.PaperNo == '')
             return;
 
@@ -672,62 +395,62 @@ angular.module('starter.controllers', [])
 
         //查詢Paper
         $scope.search = function () {
-        if ($scope.data.PaperNo == '')
-            return;
-
-        //讀入多選清單
-        $ionicModal.fromTemplateUrl('templates/CommonListTable.html', {
-            scope: $scope
-        }).then(function (modal) {
-            $scope.modal = modal;
-        });
-
-        //reset
-        $scope.data.IsDisabled = true;
-        $scope.result = undefined;
-
-
-
-
-        _12_PaperNo.Query($rootScope.UserInf.CarNo, $scope.data.PaperNo, $rootScope.UserInf.UserName).then(function (response) {
-            if (response == '' || response == undefined) {
+            if ($scope.data.PaperNo == '')
                 return;
-            }
-            else {
-                //超過一筆查詢回來, 必定為多選
-                if (response.data.rows.length > 1) {
-                    //多選小視窗必定要的內容
-                    var dataTable = [];
-                    angular.forEach(response.data.rows, function (value, key) {
-                        dataTable.push({ Name: value.RT_MSG, Value: value.PO_ID });
-                    });
-                    $rootScope.CommonListTable = dataTable;
-                    $rootScope.CommonListTableAnswer = undefined;
-                    $rootScope.$emit("Call_ListTable", {});
-                    $scope.modal.show();
-                    $scope.ListTableSource = [];
+
+            //讀入多選清單
+            $ionicModal.fromTemplateUrl('templates/CommonListTable.html', {
+                scope: $scope
+            }).then(function (modal) {
+                $scope.modal = modal;
+            });
+
+            //reset
+            $scope.data.IsDisabled = true;
+            $scope.result = undefined;
+
+
+
+
+            _12_PaperNo.Query($rootScope.UserInf.CarNo, $scope.data.PaperNo, $rootScope.UserInf.UserName).then(function (response) {
+                if (response == '' || response == undefined) {
+                    return;
                 }
                 else {
-                    var obj_response = response.data.rows[0];
-                    if (obj_response.RT_CODE != '0') {
-                        var msg = $ionicPopup.alert({ title: '錯誤',  template: obj_response.RT_MSG });
-                        msg.then(function (res) {
-                            document.getElementById('txb_PaperNo').select();
+                    //超過一筆查詢回來, 必定為多選
+                    if (response.data.rows.length > 1) {
+                        //多選小視窗必定要的內容
+                        var dataTable = [];
+                        angular.forEach(response.data.rows, function (value, key) {
+                            dataTable.push({ Name: value.RT_MSG, Value: value.PO_ID });
                         });
+                        $rootScope.CommonListTable = dataTable;
+                        $rootScope.CommonListTableAnswer = undefined;
+                        $rootScope.$emit("Call_ListTable", {});
+                        $scope.modal.show();
+                        $scope.ListTableSource = [];
                     }
                     else {
-                        $scope.result = obj_response;
-                        $scope.data.PaperNo = obj_response.PO_ID;
-                        $scope.data.IsDisabled = false;
-                        $rootScope.UserInf.PaperNo = obj_response.PO_ID;
-                        $rootScope.UserInf.IDNo = obj_response.ID;
+                        var obj_response = response.data.rows[0];
+                        if (obj_response.RT_CODE != '0') {
+                            var msg = $ionicPopup.alert({ title: '錯誤', template: obj_response.RT_MSG });
+                            msg.then(function (res) {
+                                document.getElementById('txb_PaperNo').select();
+                            });
+                        }
+                        else {
+                            $scope.result = obj_response;
+                            $scope.data.PaperNo = obj_response.PO_ID;
+                            $scope.data.IsDisabled = false;
+                            $rootScope.UserInf.PaperNo = obj_response.PO_ID;
+                            $rootScope.UserInf.IDNo = obj_response.ID;
+                        }
                     }
                 }
-            }
-        });
-    };
+            });
+        };
         _12_PaperNo.Query($rootScope.UserInf.CarNo, $scope.data.PaperNo, $rootScope.UserInf.UserName).then(function (response) {
-            if (response == '' || response == undefined) 
+            if (response == '' || response == undefined)
                 return;
             else {
                 //超過一筆查詢回來, 必定為多選
@@ -746,7 +469,7 @@ angular.module('starter.controllers', [])
                 else {
                     var obj_response = response.data.rows[0];
                     if (obj_response.RT_CODE != '0') {
-                        var msg = $ionicPopup.alert({title: '錯誤',template: obj_response.RT_MSG });
+                        var msg = $ionicPopup.alert({ title: '錯誤', template: obj_response.RT_MSG });
                         msg.then(function (res) {
                             document.getElementById('txb_PaperNo').select();
                         });
@@ -780,7 +503,7 @@ angular.module('starter.controllers', [])
         $scope.color = { white: '#FFFFFF', red: '#FF5151', green: '#79FF79' };
 
         _12_ItemCode.Query($rootScope.UserInf.IDNo, $scope.data.ItemCode, $rootScope.UserInf.UserName).then(function (response) {
-            if (response == '' || response == undefined) 
+            if (response == '' || response == undefined)
                 return;
             else {
                 //超過一筆查詢回來, 必定為多選
@@ -803,17 +526,17 @@ angular.module('starter.controllers', [])
                     var QTY = obj_response.PO_QTY.split("/");
                     $scope.QTY_left = QTY[0];
                     $scope.QTY_ShowTotal = QTY[1];
-                    
-                   //SHOW待收顏色
-                    if ($scope.QTY_left <=0) 
+
+                    //SHOW待收顏色
+                    if ($scope.QTY_left <= 0)
                         $scope.data.viewColor = $scope.color.white;
-                    else 
+                    else
                         $scope.data.viewColor = $scope.color.red;
 
 
                     if (obj_response.RT_CODE != '0') {
-                        var msg = $ionicPopup.alert({title: '錯誤', template: obj_response.RT_MSG });                 
-                        msg.then(function (res) { 
+                        var msg = $ionicPopup.alert({ title: '錯誤', template: obj_response.RT_MSG });
+                        msg.then(function (res) {
                             document.getElementById('txb_ItemCode').select();
                         });
                     }
@@ -878,7 +601,7 @@ angular.module('starter.controllers', [])
             return;
 
         _12_ItemCode.JOBID45($rootScope.UserInf.IDNo, $rootScope.UserInf.HOID, $rootScope.UserInf.UserName).then(function (response) {
-            if (response == '' || response == undefined) 
+            if (response == '' || response == undefined)
                 return;
             else {
                 var obj_response = response.data.rows[0];
@@ -894,7 +617,7 @@ angular.module('starter.controllers', [])
                     $scope.reset();
                 }
                 else {
-                    var msg = $ionicPopup.alert({  title: '成功', template: obj_response.RT_MSG });
+                    var msg = $ionicPopup.alert({ title: '成功', template: obj_response.RT_MSG });
                     $scope.reset();
                 }
             }
@@ -977,7 +700,7 @@ angular.module('starter.controllers', [])
 
     //測試
     $scope.QueryTest = function () {
-        _12_ItemReceive.QueryTest().then(function (response) {})
+        _12_ItemReceive.QueryTest().then(function (response) { })
     };
     //選品質
     $scope.QueryItemState = function () {
@@ -1005,62 +728,62 @@ angular.module('starter.controllers', [])
         $scope.QTY_color = $scope.pos;
     }
     $scope.QTY_n = function () {
-            $scope.QTY_color = $scope.neg;
+        $scope.QTY_color = $scope.neg;
     }
     $scope.WEIGHT_p = function () {
-            $scope.WEIGHT_color = $scope.pos;
+        $scope.WEIGHT_color = $scope.pos;
     }
-    $scope.WEIGHT_n = function () {      
-            $scope.WEIGHT_color = $scope.neg;
+    $scope.WEIGHT_n = function () {
+        $scope.WEIGHT_color = $scope.neg;
     }
     //加入溫度正負按鈕END
 
     //驗收
     $scope.Receive = function () {
         if ($scope.result.PRICE_TYPE == 0 && $scope.data.WEIGHT == '')
-            var msg = $ionicPopup.alert({ title: '錯誤',  template: "秤重欄位尚未輸入 !!!" });
+            var msg = $ionicPopup.alert({ title: '錯誤', template: "秤重欄位尚未輸入 !!!" });
         else {
-        var QTY = $scope.data.QTY;
-        var WEIGHT = $scope.data.WEIGHT;
+            var QTY = $scope.data.QTY;
+            var WEIGHT = $scope.data.WEIGHT;
 
-        if ($scope.QTY_color == $scope.neg)
-            QTY = -QTY;
-        if ($scope.WEIGHT_color == $scope.neg)
-            WEIGHT = -WEIGHT;
-            
+            if ($scope.QTY_color == $scope.neg)
+                QTY = -QTY;
+            if ($scope.WEIGHT_color == $scope.neg)
+                WEIGHT = -WEIGHT;
+
             _12_ItemReceive.Receive($rootScope.UserInf.IDNo, $rootScope.UserInf.LOT_ID, $scope.data.QualityValue, $scope.data.QTY, $scope.data.WEIGHT, $rootScope.UserInf.UserName).then(function (response) {
-                  if (response == '' || response == undefined)
-                      return;
-                  else {
-                      var obj_response = response.data.rows[0];
-                      if (obj_response.RT_CODE != '0') {
-                          var msg = $ionicPopup.alert({ title: '錯誤', template: obj_response.RT_MSG });
-                          msg.then(function (res) {
-                              document.getElementById('txb_QTY').select();
-                          });
-                      }
-                      else {
-                          var msg = $ionicPopup.alert({ title: '成功', template: obj_response.RT_MSG });
-                          msg.then(function (res) {
-                              document.getElementById('txb_QTY').select();
-                          });
+                if (response == '' || response == undefined)
+                    return;
+                else {
+                    var obj_response = response.data.rows[0];
+                    if (obj_response.RT_CODE != '0') {
+                        var msg = $ionicPopup.alert({ title: '錯誤', template: obj_response.RT_MSG });
+                        msg.then(function (res) {
+                            document.getElementById('txb_QTY').select();
+                        });
+                    }
+                    else {
+                        var msg = $ionicPopup.alert({ title: '成功', template: obj_response.RT_MSG });
+                        msg.then(function (res) {
+                            document.getElementById('txb_QTY').select();
+                        });
 
-                          //更新顯示
-                          $scope.result.ADDON_QTY = obj_response.ADDON_QTY;
-                          $scope.result.ADDON_WT = obj_response.ADDON_WT;
-                          $scope.result.QTY = obj_response.QTY;
-                          $scope.result.WT = obj_response.WT;
-                          $scope.result.NG_QTY = obj_response.NG_QTY;
-                          $scope.result.NG_WT = obj_response.NG_WT;
-                          $scope.result.ROW3 = obj_response.ROW3;
-                          $scope.result.ROW4 = obj_response.ROW4;
-                          $scope.result.ROW5 = obj_response.ROW5;
-                          $scope.result.ROW6 = obj_response.ROW6;
+                        //更新顯示
+                        $scope.result.ADDON_QTY = obj_response.ADDON_QTY;
+                        $scope.result.ADDON_WT = obj_response.ADDON_WT;
+                        $scope.result.QTY = obj_response.QTY;
+                        $scope.result.WT = obj_response.WT;
+                        $scope.result.NG_QTY = obj_response.NG_QTY;
+                        $scope.result.NG_WT = obj_response.NG_WT;
+                        $scope.result.ROW3 = obj_response.ROW3;
+                        $scope.result.ROW4 = obj_response.ROW4;
+                        $scope.result.ROW5 = obj_response.ROW5;
+                        $scope.result.ROW6 = obj_response.ROW6;
 
-                          $scope.reset();
-                      }//else
-                  }
-              });
+                        $scope.reset();
+                    }//else
+                }
+            });
         } //else
     };
 
@@ -1077,123 +800,11 @@ angular.module('starter.controllers', [])
                         document.getElementById('txb_QTY').select();
                     });
                 }
-                else 
+                else
                     $scope.Back();
             }//else
         });
     };
-})
-
-.controller('test_menuCtrl', function ($rootScope, $scope, $state) {
-    if ($rootScope.UserInf == undefined)
-        $state.go('login');
-
-    $scope.Lists = [
-        { Name: '[test]明細', Value: 'test_Barcode' },
-        { Name: '[test]併藍', Value: 'test_ItemCombine' },
-        {Name: '[test]MENU', Value: 'test_ItemMenu'}
-    ];
-
-    //回上頁btn
-    $scope.Back = function () {
-        window.history.back();
-    };
-
-    //選功能
-    $scope.click = function (url) {
-        $state.go(url);
-
-        if (url == "login")
-            window.history.pushState(null, null, 'login');
-    };
-})
-.controller('test_BarcodeCtrl', function ($rootScope, $scope, $state, testBarcode) {
-    $scope.data = {
-        ItemCode: ''
-    }
-
-    $scope.search = function () {
-        testBarcode.Q_DCS_ITEM_HO($rootScope).then(function (response) {
-            $scope.DCSresult = response.data;
-        })
-    }
-
-    $scope.reset = function () {
-        $scope.data.ItemCode = '';
-    };
-
-
-    $scope.Back = function () {
-        window.history.back();
-    };
-
-})
-.controller('test_ItemCombineCtrl', function ($rootScope, $scope, $ionicPopup, $timeout, $ionicModal, $state) {
-
-    if ($rootScope.UserInf == undefined) {
-        $state.go('login');
-        window.history.pushState(null, null, 'login');
-    }
-
-
-    $scope.Back = function () {
-        window.history.back();
-    };
-
-})
-.controller('test_ItemMenuCtrl', function ($rootScope, $scope, $ionicPopup, $timeout, $ionicModal, $state, login) {
-    $rootScope.Now_Parent_ID = 0;
-    $rootScope.menu_show = {};
-
-    $scope.Back = function () {
-        window.history.back();
-    };
-
-    if ($rootScope.UserInf == undefined) {
-        $state.go('login');
-        window.history.pushState(null, null, 'login');
-    }
-    else {
-        //讀取MENU
-        login.spMENU().then(function (response) {
-            $scope.menu = response.data;
-
-            for (var i = 0; i < $scope.menu.length; i++) {
-                if ($scope.menu[i].PARENT_ID == $rootScope.Now_Parent_ID)
-                    $rootScope.menu_show[i] = $scope.menu[i]             
-            }
-        })
-
-        //下層
-        $scope.Menu_Get = function (Menu_ID) {           
-            $rootScope.menu_show = {};
-            var j = 0;
-            for (var i = 0; i < $scope.menu.length; i++) {
-                if ($scope.menu[i].MENU_ID == Menu_ID) //紀錄上層
-                    $rootScope.Now_Parent_ID = $scope.menu[i].PARENT_ID;             
-                if ($scope.menu[i].PARENT_ID == Menu_ID) {  //找下層                
-                    $rootScope.menu_show[j] = $scope.menu[i];
-                    j++;
-                }
-            }
-        }
-        //上層
-        $scope.Menu_Back = function () {
-            $rootScope.menu_show = {};
-            var j = 0;
-            for (var i = 0; i < $scope.menu.length; i++) { 
-                if ($scope.menu[i].PARENT_ID == $rootScope.Now_Parent_ID) {//找上層
-                    $rootScope.menu_show[j] = $scope.menu[i];
-                    j++;
-                }
-            }          
-            for (var i = 0; i < $scope.menu.length; i++) { 
-                if ($scope.menu[i].MENU_ID == $scope.Now_Parent_ID)//紀錄上層
-                    $rootScope.Now_Parent_ID = $scope.menu[i].PARENT_ID;
-            }
-        }
-    }//else
-
 })
 
  ;
